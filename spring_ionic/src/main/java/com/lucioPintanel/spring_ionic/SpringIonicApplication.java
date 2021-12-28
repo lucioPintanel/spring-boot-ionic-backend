@@ -1,5 +1,6 @@
 package com.lucioPintanel.spring_ionic;
 
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,13 +13,20 @@ import com.lucioPintanel.spring_ionic.domain.Cidade;
 import com.lucioPintanel.spring_ionic.domain.Cliente;
 import com.lucioPintanel.spring_ionic.domain.Endereco;
 import com.lucioPintanel.spring_ionic.domain.Estado;
+import com.lucioPintanel.spring_ionic.domain.Pagamento;
+import com.lucioPintanel.spring_ionic.domain.PagamentoComBoleto;
+import com.lucioPintanel.spring_ionic.domain.PagamentoComCartao;
+import com.lucioPintanel.spring_ionic.domain.Pedido;
 import com.lucioPintanel.spring_ionic.domain.Produto;
+import com.lucioPintanel.spring_ionic.domain.enums.EstadoPagamento;
 import com.lucioPintanel.spring_ionic.domain.enums.TipoCliente;
 import com.lucioPintanel.spring_ionic.repositories.CategoriaRepository;
 import com.lucioPintanel.spring_ionic.repositories.CidadeRepository;
 import com.lucioPintanel.spring_ionic.repositories.ClienteRepository;
 import com.lucioPintanel.spring_ionic.repositories.EnderecoRepository;
 import com.lucioPintanel.spring_ionic.repositories.EstadoRepository;
+import com.lucioPintanel.spring_ionic.repositories.PagamentoRepository;
+import com.lucioPintanel.spring_ionic.repositories.PedidoRepository;
 import com.lucioPintanel.spring_ionic.repositories.ProdutoRepository;
 
 @SpringBootApplication
@@ -41,6 +49,12 @@ public class SpringIonicApplication implements CommandLineRunner {
 
 	@Autowired
 	private EnderecoRepository enderecoRepository;
+
+	@Autowired
+	private PedidoRepository pedidoRepository;
+
+	@Autowired
+	private PagamentoRepository pagamentoRepository;
 
 	public static void main(String[] args) {
 		SpringApplication.run(SpringIonicApplication.class, args);
@@ -82,7 +96,7 @@ public class SpringIonicApplication implements CommandLineRunner {
 
 		Cliente cli1 = new Cliente(null, "Maria Silva", "edmund_brekke40@hotmail.com", "26770108011",
 				TipoCliente.PESSOAFISICA);
-		
+
 		cli1.getTelefones().addAll(Arrays.asList("77706-2278", "35264-7737"));
 
 		Endereco e1 = new Endereco(null, "Rua Flores", "300", "Apto 303", "Jardim", "94090050", cli1, c1);
@@ -92,6 +106,22 @@ public class SpringIonicApplication implements CommandLineRunner {
 
 		clienteRepository.saveAll(Arrays.asList(cli1));
 		enderecoRepository.saveAll(Arrays.asList(e1, e2));
+
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy hh:mm");
+		Pedido ped1 = new Pedido(null, sdf.parse("30/09/2017 10:32"), cli1, e1);
+		Pedido ped2 = new Pedido(null, sdf.parse("10/10/2017 19:35"), cli1, e2);
+
+		Pagamento pagto1 = new PagamentoComCartao(null, EstadoPagamento.QUITADO, ped1, 6);
+		ped1.setPagamento(pagto1);
+
+		Pagamento pagto2 = new PagamentoComBoleto(null, EstadoPagamento.PENDENTE, ped2, sdf.parse("20/10/2017 00:00"),
+				null);
+		ped2.setPagamento(pagto2);
+
+		cli1.getPedidos().addAll(Arrays.asList(ped1, ped2));
+
+		pedidoRepository.saveAll(Arrays.asList(ped1, ped2));
+		pagamentoRepository.saveAll(Arrays.asList(pagto1, pagto2));
 
 	}
 }
