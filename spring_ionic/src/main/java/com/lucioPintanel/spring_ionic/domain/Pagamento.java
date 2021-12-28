@@ -42,6 +42,7 @@ public abstract class Pagamento implements Serializable {
 
 	public void setId(EstadoPagamento estado) {
 		this.id = estado.getCod();
+
 	}
 
 	public EstadoPagamento getEstado() {
@@ -76,5 +77,4 @@ public abstract class Pagamento implements Serializable {
 		Pagamento other = (Pagamento) obj;
 		return Objects.equals(id, other.id);
 	}
-
 }

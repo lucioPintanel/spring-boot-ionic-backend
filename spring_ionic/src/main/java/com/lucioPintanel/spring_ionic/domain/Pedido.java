@@ -38,6 +38,7 @@ public class Pedido implements Serializable {
 	private Endereco enderecoDeEntrega;
 
 	public Pedido() {
+
 	}
 
 	public Pedido(Integer id, Date instante, Cliente cliente, Endereco enderecoDeEntrega) {
@@ -103,5 +104,4 @@ public class Pedido implements Serializable {
 		Pedido other = (Pedido) obj;
 		return Objects.equals(id, other.id);
 	}
-	
 }

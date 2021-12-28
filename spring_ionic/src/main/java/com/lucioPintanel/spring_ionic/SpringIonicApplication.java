@@ -25,6 +25,7 @@ import com.lucioPintanel.spring_ionic.repositories.CidadeRepository;
 import com.lucioPintanel.spring_ionic.repositories.ClienteRepository;
 import com.lucioPintanel.spring_ionic.repositories.EnderecoRepository;
 import com.lucioPintanel.spring_ionic.repositories.EstadoRepository;
+import com.lucioPintanel.spring_ionic.repositories.ItemPedidoRepository;
 import com.lucioPintanel.spring_ionic.repositories.PagamentoRepository;
 import com.lucioPintanel.spring_ionic.repositories.PedidoRepository;
 import com.lucioPintanel.spring_ionic.repositories.ProdutoRepository;
@@ -55,7 +56,7 @@ public class SpringIonicApplication implements CommandLineRunner {
 
 	@Autowired
 	private PagamentoRepository pagamentoRepository;
-
+	
 	public static void main(String[] args) {
 		SpringApplication.run(SpringIonicApplication.class, args);
 	}
