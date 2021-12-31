@@ -17,28 +17,34 @@ import com.lucioPintanel.spring_ionic.services.CategoriaService;
 @RestController
 @RequestMapping(value = "/categorias")
 public class CategoriaResource {
-	
+
 	@Autowired
 	private CategoriaService serv;
-	
-	@RequestMapping(value = "/{id}" ,method = RequestMethod.GET)
+
+	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
 	public ResponseEntity<Categoria> find(@PathVariable Integer id) {
-		
-		Categoria obj = serv.find(id);		
+
+		Categoria obj = serv.find(id);
 		return ResponseEntity.ok().body(obj);
 	}
-	
+
 	@RequestMapping(method = RequestMethod.POST)
 	public ResponseEntity<Void> insert(@RequestBody Categoria obj) {
 		obj = serv.insert(obj);
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();
 		return ResponseEntity.created(uri).build();
 	}
-	
-	@RequestMapping(value = "/{id}" ,method = RequestMethod.PUT)
+
+	@RequestMapping(value = "/{id}", method = RequestMethod.PUT)
 	public ResponseEntity<Void> update(@RequestBody Categoria obj, @PathVariable Integer id) {
 		obj.setId(id);
 		obj = serv.update(obj);
+		return ResponseEntity.noContent().build();
+	}
+
+	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+	public ResponseEntity<Void> update(@PathVariable Integer id) {
+		serv.delete(id);
 		return ResponseEntity.noContent().build();
 	}
 
