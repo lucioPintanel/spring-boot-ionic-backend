@@ -1,5 +1,6 @@
 package com.lucioPintanel.spring_ionic.services;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +20,6 @@ public class CategoriaService {
 
 	public Categoria find(Integer id) {
 		Optional<Categoria> obj = repo.findById(id);
-
 		return obj.orElseThrow(() -> new ObjectNotFoundException(
 				"Objeto não encontrado!" + "Id: " + id + " " + "Tipo: " + Categoria.class.getName()));
 	}
@@ -41,5 +41,9 @@ public class CategoriaService {
 		} catch (DataIntegrityViolationException e) {
 			throw new DataIntegrityException("Não é possível excluir uma categoria que possui produto!");
 		}
+	}
+	
+	public List<Categoria> findAll() {
+		return repo.findAll();
 	}
 }
