@@ -11,6 +11,7 @@ import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
 import com.lucioPintanel.spring_ionic.domain.Categoria;
+import com.lucioPintanel.spring_ionic.dto.CategoriaDTO;
 import com.lucioPintanel.spring_ionic.repositories.CategoriaRepository;
 import com.lucioPintanel.spring_ionic.services.exceptions.DataIntegrityException;
 import com.lucioPintanel.spring_ionic.services.exceptions.ObjectNotFoundException;
@@ -53,5 +54,9 @@ public class CategoriaService {
 	public Page<Categoria> findPage(Integer page, Integer linesPerPage, String orderBy, String direction) {
 		PageRequest pageRequest = PageRequest.of(page, linesPerPage, Direction.valueOf(direction), orderBy);
 		return repo.findAll(pageRequest);
+	}
+	
+	public Categoria fromDTO(CategoriaDTO objDTO) {
+		return new Categoria(objDTO.getId(), objDTO.getName());
 	}
 }
