@@ -1,5 +1,6 @@
 package com.lucioPintanel.spring_ionic.resources;
 
+import java.net.URI;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -14,9 +15,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import com.lucioPintanel.spring_ionic.domain.Categoria;
 import com.lucioPintanel.spring_ionic.domain.Cliente;
+import com.lucioPintanel.spring_ionic.dto.CategoriaDTO;
 import com.lucioPintanel.spring_ionic.dto.ClienteDTO;
+import com.lucioPintanel.spring_ionic.dto.ClienteNewDTO;
 import com.lucioPintanel.spring_ionic.services.ClienteService;
 
 @RestController
@@ -31,6 +36,14 @@ public class ClienteResource {
 		
 		Cliente obj = serv.find(id);		
 		return ResponseEntity.ok().body(obj);
+	}
+	
+	@RequestMapping(method = RequestMethod.POST)
+	public ResponseEntity<Void> insert(@Valid @RequestBody ClienteNewDTO objDTO) {
+		Cliente obj = serv.fromDTO(objDTO);
+		obj = serv.insert(obj);
+		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();
+		return ResponseEntity.created(uri).build();
 	}
 	
 	@RequestMapping(value = "/{id}", method = RequestMethod.PUT)
